@@ -14,7 +14,7 @@ class Logger:
     :type log_level: int
     """
 
-    def __init__(self,name, log_file='/workspaces/projects/remotely/remotelylog.log', log_level=logging.DEBUG):
+    def __init__(self,name, log_file='/tmp/remotelylog.log', log_level=logging.DEBUG):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(log_level)
 
