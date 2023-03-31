@@ -14,7 +14,7 @@ class Logger:
     :type log_level: int
     """
 
-    def __init__(self,name, log_file='/tmp/remotelylog.log', log_level=logging.DEBUG):
+    def __init__(self, name, log_file="/tmp/remotelylog.log", log_level=logging.DEBUG):
         self.logger = logging.getLogger(name)
         self.logger.setLevel(log_level)
 
@@ -34,4 +34,6 @@ class Logger:
         """
         Returns a detailed log formatter with module name, function name, line number and timestamp.
         """
-        return logging.Formatter('%(asctime)s %(name)s [%(levelname)s] %(module)s.%(funcName)s:%(lineno)d - %(message)s')
+        return logging.Formatter(
+            "%(asctime)s %(name)s [%(levelname)s] %(module)s.%(funcName)s:%(lineno)d - %(message)s"
+        )

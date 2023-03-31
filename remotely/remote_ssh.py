@@ -4,6 +4,7 @@ from remotely.remotely_logger import logger_main
 
 logger = logger_main.Logger(__name__).logger
 
+
 class SSHClient:
     """
     A class for making SSH connections and executing remote commands.
@@ -52,10 +53,13 @@ class SSHClient:
         :raises paramiko.ssh_exception.AuthenticationException: If the authentication fails.
         """
         try:
-            self.client.connect(hostname=self.hostname, username=self.username, password=self.password)
+            self.client.connect(
+                hostname=self.hostname, username=self.username, password=self.password
+            )
         except paramiko.ssh_exception.AuthenticationException as e:
             logger.error(f"Failed to connect to {self.hostname}: {str(e)}")
             raise e
+
     def execute_command(self, command):
         """
         Executes a command on the remote server.
@@ -76,16 +80,14 @@ class SSHClient:
     def run_command_with_input(self, command, input_str):
         try:
             channel = self.client.invoke_shell()
-            channel.send(command + '\n')
+            channel.send(command + "\n")
             while not channel.recv_ready():
                 continue
-            output = channel.recv(1024).decode('utf-8')
-            print(output)
-            channel.send(input_str + '\n')
+            output = channel.recv(1024).decode("utf-8")
+            channel.send(input_str + "\n")
             while not channel.recv_ready():
                 continue
-            output = channel.recv(1024).decode('utf-8')
-            print(output)
+            output = channel.recv(1024).decode("utf-8")
             channel.close()
         except Exception as e:
             logger.error(f"Failed to run command with input {command}: {str(e)}")
@@ -109,8 +111,8 @@ class SSHClient:
             return results
 
     def get_current_user(self):
-        stdin, stdout, stderr = self.client.exec_command('whoami')
-        output = stdout.read().decode('utf-8').strip()
+        stdin, stdout, stderr = self.client.exec_command("whoami")
+        output = stdout.read().decode("utf-8").strip()
         return output
 
     def close(self):
